@@ -105,9 +105,9 @@ class GoogleOneTapSignInPlugin: FlutterPlugin, MethodCallHandler, MethodContract
     oneTapClient.signOut()
 
     signInRequest = BeginSignInRequest.builder()
-      .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
-        .setSupported(true)
-        .build())
+//      .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+//        .setSupported(true)
+//        .build())
       .setGoogleIdTokenRequestOptions(
         BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
           .setSupported(true)
@@ -117,7 +117,7 @@ class GoogleOneTapSignInPlugin: FlutterPlugin, MethodCallHandler, MethodContract
           .setFilterByAuthorizedAccounts(false)
           .build())
       // Automatically sign in when exactly one credential is retrieved.
-      .setAutoSelectEnabled(true)
+//      .setAutoSelectEnabled(true)
       .build()
 
     oneTapClient.beginSignIn(signInRequest)
