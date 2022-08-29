@@ -11,35 +11,27 @@ part of '../google_one_tap_sign_in.dart';
 /// User data when success sign in
 ///
 class SignInResult {
-  SignInResult(
-      {this.credential,
-        this.idToken,
-        this.username,
-        this.password,
-        this.displayName,
-        this.googleIdToken,
-        this.id});
+  SignInResult({
+    this.idToken,
+    this.username,
+    this.password,
+    this.displayName});
 
-  final credential;
   final idToken;
   final username;
   final password;
   final displayName;
-  final googleIdToken;
-  final id;
 
   ///
   /// Parsing data from json to this Model
   ///
-  factory SignInResult.fromMap(Map<String, dynamic> json) => SignInResult(
-    credential: json["credential"] == null ? null : json["credential"],
-    username: json["username"] == null ? null : json["username"],
-    password: json["password"] == null ? null : json["password"],
-    idToken: json["id_token"] == null ? null : json["id_token"],
-    displayName: json["display_name"] == null ? null : json["display_name"],
-    googleIdToken: json["google_id_token"] == null ? null : json["google_id_token"],
-    id: json["id"] == null ? null : json["id"],
-  );
+  factory SignInResult.fromMap(Map<String, dynamic> json) =>
+      SignInResult(
+        username: json["username"] == null ? null : json["username"],
+        password: json["password"] == null ? null : json["password"],
+        idToken: json["id_token"] == null ? null : json["id_token"],
+        displayName: json["display_name"] == null ? null : json["display_name"],
+      );
 }
 
 ///
@@ -145,5 +137,4 @@ enum OneTapStatus {
   /// You Rock 🤘 🤘 🤘 🤘
   /// User will get this [OneTapStatus.OK]
   OK,
-
 }

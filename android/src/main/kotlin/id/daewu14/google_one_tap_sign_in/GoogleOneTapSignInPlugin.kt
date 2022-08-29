@@ -201,10 +201,14 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
                             val username = credential.id
                             val password = credential.password
                             val displayName = credential.displayName
-                            val googleIdToken = credential.googleIdToken
-                            val id = credential.id
                             Log.d(DAEWU, "~~~~ ☕ ONE TAP SUCCESS ☕ ~~~~")
-                            it.success("{\"credential\":\"$credential\", \"id_token\":\"$idToken\",\"username\":\"$username\",\"password\":\"$password\",\"display_name\":\"$displayName\",\"google_id_token\":\"$googleIdToken\",\"id\":\"$id\"}")
+                            val params: MutableMap<String, Any?> = mutableMapOf()
+                            params["id_token"] = idToken
+                            params["username"] = username
+                            params["password"] = password
+                            params["display_name"] = displayName
+
+                            it.success(params)
                             return true
                         } catch (e: ApiException) {
                             Log.d(DAEWU, "~~~~ !! ONE TAP ApiException !! ~~~~")

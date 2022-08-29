@@ -109,8 +109,7 @@ class GoogleOneTapSignIn {
       default:
         if (data != null) {
           try {
-            var json = jsonDecode(data);
-            var userData = SignInResult.fromMap(json);
+            var userData = SignInResult.fromMap(Map.from(data));
             signInData = SignInData(status: OneTapStatus.OK, data: userData);
           } catch (e) {
             signInData = SignInData(status: OneTapStatus.UNKNOWN);
