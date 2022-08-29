@@ -78,8 +78,8 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
                 startSignIn()
             }
             "savePassword" -> {
-                val username = call.argument("username")
-                val password = call.argument("password")
+                var username = call.argument("username")
+                var password = call.argument("password")
                 savePassword(username, password)
             }
             else -> {
