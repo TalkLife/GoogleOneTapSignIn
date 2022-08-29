@@ -43,9 +43,9 @@ class GoogleOneTapSignIn {
   /// ```
   ///
   static Future<SignInResult?> startSignIn(
-      {required String webClientId}) async {
+      {required String webClientId, bool enableGoogleAccount = false}) async {
     var data = await _channel
-        .invokeMethod('startSignIn', {"web_client_id": webClientId});
+        .invokeMethod('startSignIn', {"web_client_id": webClientId, "enable_google_account": enableGoogleAccount});
     if (data == null) return null;
     if (data == "TEMPORARY_BLOCKED") return null;
     var json = jsonDecode(data);

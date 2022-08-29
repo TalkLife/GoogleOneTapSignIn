@@ -46,6 +46,7 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
     private var activity: Activity? = null
     private var context: Context? = null
     private var webCLientId: String? = null
+    private var enableGoogleAccount: Boolean? = null
     private var result: MethodChannel.Result? = null
 
     /**
@@ -75,11 +76,12 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
             }
             "startSignIn" -> {
                 webCLientId = call.argument("web_client_id")
+                enableGoogleAccount = call.argument("enable_google_account")
                 startSignIn()
             }
             "savePassword" -> {
-                var username:String? = call.argument("username")
-                var password:String? = call.argument("password")
+                var username: String? = call.argument("username")
+                var password: String? = call.argument("password")
                 savePassword(username, password)
             }
             else -> {
@@ -94,7 +96,7 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
     }
 
     override fun savePassword(userId: String?, password: String?) {
-        if(userId == null || password == null){
+        if (userId == null || password == null) {
             result!!.success(false)
             return
         }
@@ -146,7 +148,7 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
             )
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
+                    .setSupported(if (enableGoogleAccount == null) false else enableGoogleAccount!!)
                     // Your server's client ID, not your Android client ID.
                     .setServerClientId(webCLientId)
                     // Only show accounts previously used to sign in.
