@@ -78,8 +78,8 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
                 startSignIn()
             }
             "savePassword" -> {
-                var username = call.argument("username")
-                var password = call.argument("password")
+                var username:String? = call.argument("username")
+                var password:String? = call.argument("password")
                 savePassword(username, password)
             }
             else -> {
@@ -93,8 +93,12 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
         channel.setMethodCallHandler(null)
     }
 
-    override fun savePassword(userId: String, password: String) {
-        val signInPassword = SignInPassword(userId, password)
+    override fun savePassword(userId: String?, password: String?) {
+        if(userId == null || password == null){
+            result!!.success(false)
+            return
+        }
+        val signInPassword = SignInPassword(userId!!, password!!)
         val savePasswordRequest =
             SavePasswordRequest.builder().setSignInPassword(signInPassword).build()
         Identity.getCredentialSavingClient(activity)
@@ -218,7 +222,7 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
                         return true
                     } else {
                         Log.d(DAEWU, "~~~~ !! ONE TAP save pass fail !! ~~~~")
-                        it.success(null)
+                        it.success(false)
                         return false
                     }
                 }
