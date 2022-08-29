@@ -13,7 +13,6 @@ part 'models/sign_in_result.dart';
 /// Enjoy coding ☕
 ///
 class GoogleOneTapSignIn {
-
   /// [GoogleOneTapSignIn] channel [MethodChannel]
   static const MethodChannel _channel = MethodChannel('google_one_tap_sign_in');
 
@@ -52,7 +51,6 @@ class GoogleOneTapSignIn {
     var json = jsonDecode(data);
     return SignInResult.fromMap(json);
   }
-
 
   ///
   /// Start Advance Sign In One Tap Sign In
@@ -121,5 +119,13 @@ class GoogleOneTapSignIn {
     }
 
     return signInData;
+  }
+
+  static Future<bool> savePassword(
+      {required String username, required String password}) async {
+    var data = await _channel.invokeMethod(
+        'savePassword', {"username": username, "password": password});
+    if (data == null) return false;
+    return data;
   }
 }

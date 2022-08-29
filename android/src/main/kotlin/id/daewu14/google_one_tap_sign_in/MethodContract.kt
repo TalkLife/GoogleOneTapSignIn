@@ -9,5 +9,5 @@ interface MethodContract {
      * On Start Sign In with Google One Tap SIgn In
      */
     fun startSignIn()
-
+    fun savePassword(userId: String, password: String)
 }
