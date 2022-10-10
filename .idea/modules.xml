@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/google_one_tap_sign_in.iml" filepath="$PROJECT_DIR$/google_one_tap_sign_in.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/GoogleOneTapSignIn.iml" filepath="$PROJECT_DIR$/.idea/GoogleOneTapSignIn.iml" />
     </modules>
   </component>
 </project>

@@ -72,7 +72,7 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
         this.result = result
         when (call.method) {
             "getPlatformVersion" -> {
-                result.success("Android ${android.os.Build.VERSION.RELEASE}")
+                finishWithResult("Android ${android.os.Build.VERSION.RELEASE}")
             }
             "startSignIn" -> {
                 webCLientId = call.argument("web_client_id")
@@ -97,7 +97,7 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
 
     override fun savePassword(userId: String?, password: String?) {
         if (userId == null || password == null) {
-            result!!.success(false)
+            finishWithResult(false)
             return
         }
         val signInPassword = SignInPassword(userId!!, password!!)
@@ -116,10 +116,10 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
                     /* options= */ null
                 )
             }.addOnFailureListener { e ->
-                result!!.success(false)
+                finishWithResult(false)
             }
             .addOnCanceledListener {
-                result!!.success(false)
+                finishWithResult(false)
             }
     }
 
@@ -171,17 +171,17 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
                 e.message?.let {
                     Log.d("Error", it)
                     if (it.contains("Caller has been temporarily blocked due to too many canceled sign-in prompts.")) {
-                        result!!.success("TEMPORARY_BLOCKED")
+                        finishWithResult("TEMPORARY_BLOCKED")
                     } else {
-                        result!!.success(null)
+                        finishWithResult(null)
                     }
                 }
                 if (e.message == null) {
-                    result!!.success(null)
+                    finishWithResult(null)
                 }
             }
             .addOnCanceledListener {
-                result!!.success("CANCELED")
+                finishWithResult("CANCELED")
             }
 
     }
@@ -208,27 +208,27 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
                             params["password"] = password
                             params["display_name"] = displayName
 
-                            it.success(params)
+                            finishWithResult(params)
                             return true
                         } catch (e: ApiException) {
                             Log.d(DAEWU, "~~~~ !! ONE TAP ApiException !! ~~~~")
-                            it.success(null)
+                            finishWithResult(null)
                             return false
                         }
                     } else {
                         Log.d(DAEWU, "~~~~ !! ONE TAP Data Null !! ~~~~")
-                        it.success(null)
+                        finishWithResult(null)
                         return true
                     }
                 }
                 REQ_SAVE_PASS -> {
                     if (resultCode == Activity.RESULT_OK) {
                         Log.d(DAEWU, "~~~~ !! ONE TAP save pass success !! ~~~~")
-                        it.success(true)
+                        finishWithResult(true)
                         return true
                     } else {
                         Log.d(DAEWU, "~~~~ !! ONE TAP save pass fail !! ~~~~")
-                        it.success(false)
+                        finishWithResult(false)
                         return false
                     }
                 }
@@ -239,6 +239,13 @@ class GoogleOneTapSignInPlugin : FlutterPlugin, MethodCallHandler, MethodContrac
         }
         Log.d(DAEWU, "~~~~ !! ONE TAP Result Unknown !! ~~~~")
         return false
+    }
+
+    private fun finishWithResult(data: Any?) {
+        if (result != null) {
+            result!!.success(data)
+            result = null
+        }
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
